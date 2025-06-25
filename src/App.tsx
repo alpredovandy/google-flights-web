@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import router from '@/router';
 
+import './App.css';
 import { QUERY_CLIENT_OPTIONS } from './constants/queryClient';
 
 const App = () => {
