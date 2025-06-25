@@ -17,7 +17,7 @@ const CustomAutocomplete = ({ dataKey, options, state, isLoading, onChange, onPa
             inputValue={isEmpty(state.origin?.entityId) ? from : to}
             options={options}
             loading={isLoading}
-            onInputChange={(event, value, reason) => {
+            onInputChange={(_event, value, reason) => {
                 if (reason === 'input') {
                     onParams(value);
                 }
@@ -31,7 +31,7 @@ const CustomAutocomplete = ({ dataKey, options, state, isLoading, onChange, onPa
                     },
                 });
             }}
-            onChange={(event, newValue: any) => {
+            onChange={(_event, newValue: any) => {
                 onParams(newValue?.label);
 
                 const selectedOption = options.find((opt) => opt.label === newValue?.label);
