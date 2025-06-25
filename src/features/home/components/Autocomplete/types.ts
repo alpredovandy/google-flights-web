@@ -2,6 +2,7 @@ import { FlightsResponseType } from '@/domains/Flight';
 
 export interface CustomAutocompleteProps {
     dataKey: string;
+    label: string;
     options: FlightsResponseType[];
     state: Record<string, any>;
     isLoading: boolean;

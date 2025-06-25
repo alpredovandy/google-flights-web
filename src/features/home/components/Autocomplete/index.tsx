@@ -2,13 +2,12 @@ import { CircularProgress } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-import { toPascalCase } from '@/helpers/string';
 import { isEmpty } from '@/helpers/validation';
 import useQueryParams from '@/hooks/useQueryParams';
 
 import { CustomAutocompleteProps } from './types';
 
-const CustomAutocomplete = ({ dataKey, options, state, isLoading, onChange, onParams }: CustomAutocompleteProps) => {
+const CustomAutocomplete = ({ dataKey, label, options, state, isLoading, onChange, onParams }: CustomAutocompleteProps) => {
     const { getQueryParams } = useQueryParams();
     const { from, to } = getQueryParams();
 
@@ -46,9 +45,8 @@ const CustomAutocomplete = ({ dataKey, options, state, isLoading, onChange, onPa
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label={toPascalCase(dataKey)}
+                    label={label}
                     variant="outlined"
-                    required
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: <>{isLoading ? <CircularProgress color="inherit" size={20} /> : params.InputProps.endAdornment}</>,

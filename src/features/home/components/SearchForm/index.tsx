@@ -32,7 +32,7 @@ const SearchForm = () => {
         [state]
     );
 
-    console.log('fox state', state);
+    // console.log('fox state', state);
 
     return (
         <>
@@ -45,6 +45,7 @@ const SearchForm = () => {
                 <div className="search-form" style={{ padding: '0', margin: '0' }} id="search-form">
                     <CustomAutocomplete
                         options={state?.airports ?? []}
+                        label="Where from?"
                         state={state.form}
                         dataKey="origin"
                         onChange={set}
@@ -57,6 +58,7 @@ const SearchForm = () => {
                     />
                     <CustomAutocomplete
                         options={state?.airports ?? []}
+                        label="Where to?"
                         state={state.form}
                         dataKey="destination"
                         onChange={set}
@@ -70,12 +72,11 @@ const SearchForm = () => {
                     <TextField
                         type="date"
                         name="departureDate"
-                        label="Departure Date"
+                        label="Departure"
                         value={state.form.departureDate}
                         onChange={handleChange}
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
-                        required
                         inputProps={{
                             min: today,
                         }}
@@ -84,16 +85,14 @@ const SearchForm = () => {
                         <TextField
                             type="date"
                             name="returnDate"
-                            label="Return Date"
+                            label="Return"
                             value={state.form.returnDate}
                             onChange={handleChange}
                             InputLabelProps={{ shrink: true }}
                             variant="outlined"
-                            required
                             inputProps={{
                                 min: state.form.departureDate || today,
                             }}
-                            disabled
                         />
                     )}
                 </div>
