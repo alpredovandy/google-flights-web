@@ -21,14 +21,13 @@ const CustomAutocomplete = ({
             loading={isLoading}
             disabled={disabled}
             onInputChange={(_event, value, reason) => {
-                // Update only if value is different from current query
                 if (reason === 'input' && value !== param) {
-                    onParams(value);
+                    onParams(value, true);
                 }
             }}
             onChange={(_event, newValue) => {
                 if (newValue) {
-                    onParams(newValue?.label);
+                    onParams(newValue?.label, false);
                     const selectedOption = options.find((opt) => opt.label === newValue?.label);
                     onChange({
                         form: {

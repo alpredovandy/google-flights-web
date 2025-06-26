@@ -24,12 +24,9 @@ export interface FlightState {
 
 export interface FlightContextProps {
     state: FlightState;
-
     isLoading: boolean;
-
     isFetching: boolean;
-
     set: (data: object) => void;
-
     onRefetch: () => void;
+    onReset: () => void;
 }

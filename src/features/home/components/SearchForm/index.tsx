@@ -16,12 +16,12 @@ import CustomAutocomplete from '../Autocomplete';
 import * as Styled from './search.styles';
 
 const SearchForm = () => {
-    const { setQueryParams, resetQueryParams } = useQueryParams();
+    const { setQueryParams } = useQueryParams();
 
-    const { state, set, onRefetch, isLoading, isFetching } = useFlightContext();
+    const { state, set, onRefetch, onReset, isLoading, isFetching } = useFlightContext();
     const today = new Date().toISOString().split('T')[0];
 
-    const isValid = !isEmpty(state.form.origin?.entityId) && !isEmpty(state.form.destination?.entityId) && !isEmpty(state.form.departureDate);
+    const isDisabled = isEmpty(state.form.origin?.entityId) && isEmpty(state.form.destination?.entityId) && isEmpty(state.form.departureDate);
 
     const handleChange = useCallback(
         (e: any) => {
@@ -33,14 +33,6 @@ const SearchForm = () => {
             });
         },
         [state]
-    );
-
-    const handleSubmit = useCallback(
-        (e: any) => {
-            e.preventDefault();
-            onRefetch();
-        },
-        [onRefetch]
     );
 
     return (
@@ -69,13 +61,13 @@ const SearchForm = () => {
                         variant="contained"
                         color="error"
                         size="small"
-                        onClick={resetQueryParams}
+                        onClick={onReset}
                     >
                         Filters
                     </Button>
                 </Box>
 
-                <form onSubmit={handleSubmit} className="search-form" style={{ padding: '0', margin: '0' }} id="search-form">
+                <div className="search-form" style={{ padding: '0', margin: '0' }}>
                     <CustomAutocomplete
                         options={state.airports ?? []}
                         label="Where from?"
@@ -83,16 +75,19 @@ const SearchForm = () => {
                         dataKey="origin"
                         onChange={set}
                         param={state.query.from}
-                        onParams={(param) => {
-                            setQueryParams({
-                                search: param,
-                            });
+                        onParams={(param, isValid) => {
                             set({
                                 query: {
                                     ...state.query,
                                     from: param,
                                 },
                             });
+
+                            if (isValid) {
+                                setQueryParams({
+                                    search: param,
+                                });
+                            }
                         }}
                         isLoading={isEmpty(state.form.origin?.entityId) && isLoading}
                     />
@@ -103,19 +98,22 @@ const SearchForm = () => {
                         dataKey="destination"
                         onChange={set}
                         param={state.query.to}
-                        onParams={(param) => {
-                            setQueryParams({
-                                search: param,
-                            });
+                        onParams={(param, isValid) => {
                             set({
                                 query: {
                                     ...state.query,
                                     to: param,
                                 },
                             });
+
+                            if (isValid) {
+                                setQueryParams({
+                                    search: param,
+                                });
+                            }
                         }}
                         disabled={isEmpty(state.form.origin?.entityId)}
-                        isLoading={!isEmpty(state.query.to) && isLoading}
+                        isLoading={isEmpty(state.query.to) && !isEmpty(state.form.origin?.entityId) && isLoading}
                     />
                     <TextField
                         type="date"
@@ -146,7 +144,7 @@ const SearchForm = () => {
                             required
                         />
                     )}
-                </form>
+                </div>
             </Styled.SearchContainer>
             <Button
                 startIcon={<SearchIcon />}
@@ -161,10 +159,10 @@ const SearchForm = () => {
                     boxShadow: '0 1px 3px 0 rgba(60,64,67,.3),0 4px 8px 3px rgba(60,64,67,.15)',
                 }}
                 variant="contained"
-                loading={!isValid && isFetching}
-                type="submit"
+                onClick={onRefetch}
+                disabled={isDisabled || isFetching}
             >
-                Search
+                {isFetching ? 'Loading...' : 'Search'}
             </Button>
             <div
                 style={{

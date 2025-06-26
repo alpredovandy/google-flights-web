@@ -9,5 +9,5 @@ export interface CustomAutocompleteProps {
     isLoading?: boolean;
     onChange: (data: Record<string, any>) => void;
     param: string;
-    onParams: (param: string) => void;
+    onParams: (param: string, isValid?: boolean) => void;
 }

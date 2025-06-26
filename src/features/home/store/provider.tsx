@@ -53,13 +53,13 @@ export const FlightProvider = ({ children }: { children: React.ReactNode }) => {
     const query = useDebounce(search, 500);
     const isValid = search === query;
 
-    const { data: airports, isLoading: isLoadingAirports } = useSearchAirportsQuery(query, !isEmpty(search) && isValid);
+    const { data: airports, isLoading: isLoadingAirports } = useSearchAirportsQuery(query, !isEmpty(query) && isValid);
     const { data: flights, refetch: refetchFlights, isLoading: isLoadingFlights, isFetching } = useSearchFlightsQuery(state.form);
 
     const update = (data: Partial<FlightState>) => setState((prev) => ({ ...prev, ...data }));
 
     useEffect(() => {
-        resetQueryParams();
+        onReset();
     }, []);
 
     useEffect(() => {
@@ -88,6 +88,11 @@ export const FlightProvider = ({ children }: { children: React.ReactNode }) => {
         refetchFlights();
     };
 
+    const onReset = () => {
+        update(initialState);
+        resetQueryParams();
+    };
+
     return (
         <FlightContext.Provider
             value={{
@@ -96,6 +101,7 @@ export const FlightProvider = ({ children }: { children: React.ReactNode }) => {
                 isFetching,
                 set: update,
                 onRefetch,
+                onReset,
             }}
         >
             {children}
