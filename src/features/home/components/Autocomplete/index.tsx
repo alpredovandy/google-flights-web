@@ -2,51 +2,58 @@ import { CircularProgress } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-import { isEmpty } from '@/helpers/validation';
-import useQueryParams from '@/hooks/useQueryParams';
-
 import { CustomAutocompleteProps } from './types';
 
-const CustomAutocomplete = ({ dataKey, label, options, state, isLoading, onChange, onParams }: CustomAutocompleteProps) => {
-    const { getQueryParams } = useQueryParams();
-    const { from, to } = getQueryParams();
-
+const CustomAutocomplete = ({
+    dataKey,
+    label,
+    options,
+    state,
+    isLoading = false,
+    disabled = false,
+    onChange,
+    param,
+    onParams,
+}: CustomAutocompleteProps) => {
     return (
         <Autocomplete
-            inputValue={isEmpty(state.origin?.entityId) ? from : to}
             options={options}
             loading={isLoading}
+            disabled={disabled}
             onInputChange={(_event, value, reason) => {
-                if (reason === 'input') {
+                // Update only if value is different from current query
+                if (reason === 'input' && value !== param) {
                     onParams(value);
                 }
-
-                const selectedOption = options.find((opt) => opt.label === value);
-
-                onChange({
-                    form: {
-                        ...state,
-                        [dataKey]: selectedOption,
-                    },
-                });
             }}
-            onChange={(_event, newValue: any) => {
-                onParams(newValue?.label);
-
-                const selectedOption = options.find((opt) => opt.label === newValue?.label);
-
-                onChange({
-                    form: {
-                        ...state,
-                        [dataKey]: selectedOption,
-                    },
-                });
+            onChange={(_event, newValue) => {
+                if (newValue) {
+                    onParams(newValue?.label);
+                    const selectedOption = options.find((opt) => opt.label === newValue?.label);
+                    onChange({
+                        form: {
+                            ...state.form,
+                            [dataKey]: selectedOption,
+                        },
+                    });
+                } else {
+                    // clear selection
+                    onParams('');
+                    onChange({
+                        form: {
+                            ...state.form,
+                            [dataKey]: null,
+                        },
+                    });
+                }
             }}
             renderInput={(params) => (
                 <TextField
                     {...params}
                     label={label}
+                    disabled={disabled}
                     variant="outlined"
+                    required
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: <>{isLoading ? <CircularProgress color="inherit" size={20} /> : params.InputProps.endAdornment}</>,

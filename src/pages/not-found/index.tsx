@@ -1,4 +1,5 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const NotFoundPage = () => {
     return (
@@ -37,10 +38,15 @@ const NotFoundPage = () => {
                             color: '#666666',
                             maxWidth: '600px',
                             mx: 'auto',
+                            mb: 8,
                         }}
                     >
-                        Sorry, the page your looking for doesnt exist.
+                        Sorry, the page youre looking for doesnt exist.
                     </Typography>
+                    {/* Back to Home Button */}
+                    <Button variant="contained" color="primary" component={RouterLink} to="/" size="large">
+                        Back to Home
+                    </Button>
                 </Box>
             </Container>
         </Box>

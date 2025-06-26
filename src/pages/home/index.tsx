@@ -4,7 +4,7 @@ import { FlightProvider } from '@/features/home/store/provider';
 const HomePage = () => {
     return (
         <FlightProvider>
-            <HomeFeatures />;
+            <HomeFeatures />
         </FlightProvider>
     );
 };

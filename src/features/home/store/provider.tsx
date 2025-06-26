@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { FlightsResponseType } from '@/domains/Flight';
+import { AirportsResponseType } from '@/domains/Flight';
 import { optionsClass, optionsTrip } from '@/features/configs';
 import { isEmpty } from '@/helpers/validation';
 import { useDebounce } from '@/hooks/useDebounce';
 import useQueryParams from '@/hooks/useQueryParams';
 
-import { useSearchAirportsQuery } from '../hooks';
+import { useSearchAirportsQuery, useSearchFlightsQuery } from '../hooks';
 import { FlightContext } from './context';
 import { FlightState } from './types';
 
@@ -27,36 +27,49 @@ const initialState: FlightState = {
         passengers: 1,
         tripType: optionsTrip[1].key,
         cabinClass: optionsClass[0].key,
+        currency: 'USD',
+        market: 'en-US',
+        countryCode: 'US',
+        sortBy: 'best',
+    },
+    query: {
+        from: '',
+        to: '',
     },
     flights: [],
     airports: [],
 };
 
 export const FlightProvider = ({ children }: { children: React.ReactNode }) => {
-    const { getQueryParams } = useQueryParams({
+    const { getQueryParams, resetQueryParams } = useQueryParams({
         defaultParams: {
-            from: '',
-            to: '',
+            search: '',
         },
     });
-    const { from, to } = getQueryParams();
+    const { search } = getQueryParams();
 
     const [state, setState] = useState<FlightState>(initialState);
 
-    const query = useDebounce(isEmpty(state.form.origin?.entityId) ? from : to, 1500);
-    const isValid = isEmpty(state.form.origin?.entityId) ? from.length > 3 && from !== query : to.length > 3 && to !== query;
+    const query = useDebounce(search, 500);
+    const isValid = search === query;
 
-    const { data: airports, refetch: refetchAirports, isLoading: isLoadingAirports } = useSearchAirportsQuery(query, isValid);
+    const { data: airports, isLoading: isLoadingAirports } = useSearchAirportsQuery(query, !isEmpty(search) && isValid);
+    const { data: flights, refetch: refetchFlights, isLoading: isLoadingFlights, isFetching } = useSearchFlightsQuery(state.form);
 
     const update = (data: Partial<FlightState>) => setState((prev) => ({ ...prev, ...data }));
 
     useEffect(() => {
+        resetQueryParams();
+    }, []);
+
+    useEffect(() => {
         if (!isEmpty(airports)) {
-            const newAirports = airports?.map((el: FlightsResponseType) => ({
+            const newAirports = airports?.map((el: AirportsResponseType) => ({
                 entityId: el.entityId,
                 label: el.presentation.suggestionTitle,
                 skyId: el.skyId,
             }));
+
             update({
                 airports: newAirports ?? [],
             });
@@ -64,23 +77,23 @@ export const FlightProvider = ({ children }: { children: React.ReactNode }) => {
     }, [airports]);
 
     useEffect(() => {
-        if (isEmpty(query)) {
+        if (!isEmpty(flights)) {
             update({
-                flights: [],
-                airports: [],
+                flights: flights?.itineraries ?? [],
             });
         }
-    }, [query]);
+    }, [flights]);
 
     const onRefetch = () => {
-        refetchAirports();
+        refetchFlights();
     };
 
     return (
         <FlightContext.Provider
             value={{
                 state,
-                isLoading: isLoadingAirports,
+                isLoading: isLoadingAirports || isLoadingFlights,
+                isFetching,
                 set: update,
                 onRefetch,
             }}

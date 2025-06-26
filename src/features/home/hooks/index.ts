@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
-import { FlightSearchRequestType } from '@/domains/Flight';
+import { FlightsRequestType } from '@/domains/Flight';
 import flightService from '@/services/flightService';
 
-export const useSearchFlightsQuery = (params: FlightSearchRequestType, enabled = false) => {
+export const useSearchFlightsQuery = (params: FlightsRequestType, enabled = false) => {
     const query = useQuery({
         queryKey: ['flightService.searchFlights', params],
         queryFn: async () => await flightService.searchFlights(params),

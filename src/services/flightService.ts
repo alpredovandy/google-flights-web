@@ -1,8 +1,8 @@
-import { FlightSearchRequestType } from '@/domains/Flight';
+import { FlightsRequestType } from '@/domains/Flight';
 
 import httpClient from './interceptors/httpClient';
 
-const searchFlights = async (params: FlightSearchRequestType) => {
+const searchFlights = async (params: FlightsRequestType) => {
     const newParams = {
         originSkyId: params.origin.skyId,
         destinationSkyId: params.destination.skyId,
@@ -12,10 +12,10 @@ const searchFlights = async (params: FlightSearchRequestType) => {
         returnDate: params.returnDate || '',
         adults: params.passengers,
         cabinClass: params.cabinClass,
-        currency: 'USD',
-        market: 'en-US',
-        countryCode: 'US',
-        sortBy: 'best',
+        currency: params.currency,
+        market: params.market,
+        countryCode: params.countryCode,
+        sortBy: params.sortBy,
     };
 
     try {
