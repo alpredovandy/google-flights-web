@@ -31,7 +31,7 @@ This is the stack for build this project.
 -   [![React][React.js]][React-url]
 -   [![Tanstack Query][Tanstack Query]][TanstackQuery-url]
 -   [![Zod][Zod]][Zod-url]
--   [![Github][Github]][Github-url]
+-   [![Rapid][Rapid]][Rapid-url]
 -   [![Vercel][Vercel]][Vercel-url]
 -   [![Vite][Vite]][Vite-url]
 
@@ -108,8 +108,8 @@ Project Link: [https://github.com/alpredovandy/google-flights-web](https://githu
 [TanstackQuery-url]: https://tanstack.com/query/latest
 [Zod]: https://img.shields.io/badge/zod-blue?style=for-the-badge&logo=zod
 [Zod-url]: https://zod.dev
-[Github]: https://img.shields.io/badge/github-api-black?style=for-the-badge&logo=github
-[Github-url]: https://github.com
+[Rapid]: https://img.shields.io/badge/rapid-api-blue?style=for-the-badge&logo=rapid
+[Rapid-url]: https://rapidapi.com
 [Vercel]: https://img.shields.io/badge/vercel-black?style=for-the-badge&logo=vercel
 [Vercel-url]: https://vercel.com
 [Vite]: https://img.shields.io/badge/vite-FFFFE0?style=for-the-badge&logo=vite
