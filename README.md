@@ -57,7 +57,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
     ```sh
-    git clone https://github.com/alpredovandy/google-flights-web.git
+    git clone https://github.com/edovqL/google-flights-web.git
     ```
 2. Move to repo
     ```sh
@@ -83,8 +83,8 @@ This is an example of how to list things you need to use the software and how to
 
 ## Top contributors:
 
-<a href="https://github.com/alpredovandy/google-flights-web/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=alpredovandy/google-flights-web" alt="contrib.rocks image" />
+<a href="https://github.com/edovqL/google-flights-web/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=edovqL/google-flights-web" alt="contrib.rocks image" />
 </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -95,7 +95,7 @@ This is an example of how to list things you need to use the software and how to
 
 Alpredo Pandiangan - alpredo.vandy@gmail.com
 
-Project Link: [https://github.com/alpredovandy/google-flights-web](https://github.com/alpredovandy/google-flights-web)
+Project Link: [https://github.com/edovqL/google-flights-web](https://github.com/edovqL/google-flights-web)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
